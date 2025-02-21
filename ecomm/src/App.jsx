@@ -11,6 +11,7 @@ import Cart from "./pages/Cart"
 import Checkout from "./pages/Checkout"
 import Groceries from "./pages/Groceries"
 import Juice from "./pages/Juice"
+import Success from "./pages/Success"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/cart" element={<Cart/>}/>
+        <Route path="/khaltiSuccess" element={<Success/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
         <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>

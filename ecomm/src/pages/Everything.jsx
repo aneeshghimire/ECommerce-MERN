@@ -26,7 +26,7 @@ export default function Everything() {
 
         
         const [search, setSearch] = useState("");
-        const [priceRange, setPriceRange] = useState([10, 40]);
+        const [priceRange, setPriceRange] = useState([0, 10000]);
       
         // Filter products based on search & price range
         const filteredProducts = products.filter(

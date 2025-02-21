@@ -116,7 +116,7 @@ const ViewProducts = () => {
 
 const ManageOrders = () => (
   <div className="p-6 bg-white rounded-lg shadow">
-    <h2 className="text-xl font-semibold mb-4">Order Management</h2>
+    <h2 className="text-xl font-semibold mb-4">Order Management Dummy Page</h2>
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">

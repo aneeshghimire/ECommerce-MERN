@@ -69,9 +69,9 @@ export default function Everything() {
               <span>Home</span>
             </Link>
             <span className="mx-2">/</span>
-            <span>Groceries</span>
+            <span>Juice</span>
           </nav>
-          <h1 className="text-5xl md:text-7xl font-bold text-[#8ec63f]">Groceries</h1>
+          <h1 className="text-5xl md:text-7xl font-bold text-[#8ec63f]">Juice</h1>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-6">
             <p className="text-gray-600 mb-2 md:mb-0">
               Showing 1–{filteredProducts.length} of {products.length} results

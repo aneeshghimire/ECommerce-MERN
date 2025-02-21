@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link, Links } from 'react-router-dom';
 
 const CheckoutPage = () => {
 const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
@@ -20,6 +21,22 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
     });
   };
 
+  const orderID = `TXN-${Date.now()}`;
+  const [amount, setAmount] = useState(0)
+  const data = {
+    amount : amount,
+    orderID
+  }
+  const verifyKhalti = async() =>{
+    const response = await axios.post('http://localhost:3001/khaltiPayment',data, {
+      withCredentials: true,
+    });
+    if(response.status === 200){
+      console.log("Backend data: ", response.data.url.payment_url)
+      window.location.href = response.data.url.payment_url;
+    }
+    }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
@@ -37,6 +54,7 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
       if (response.status === 200) {
         console.log(response.data)
         setCart(response.data)
+        setAmount(response.data.totalPrice)
       }
     } catch (error) {
       console.error("Error fetching product details:", error);
@@ -52,7 +70,6 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
             <div className="bg-white p-6 rounded-lg shadow">
               <h2 className="text-2xl font-semibold mb-6">Billing details</h2>
               <form onSubmit={handleSubmit}>
-               
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Full name <span className="text-red-500">*</span>
@@ -195,7 +212,7 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
                 </div>
 
                 <button
-                  type="submit"
+                  onClick={verifyKhalti}
                   className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition duration-200"
                 >
                   PLACE ORDER

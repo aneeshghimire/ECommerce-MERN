@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const axios = require('axios');
 const mongoose = require("mongoose");
 const Category = require("./models/Category");
 const Product = require("./models/Product");
@@ -214,7 +215,7 @@ app.delete("/deleteCartItem", async (req, res) => {
     try {
 
         const { productId } = req.query;
-        console.log(productId.toString())
+        // console.log(productId.toString())
         // Find the cart
         let cart = await Cart.findOne().populate('items.productId');
         if (!cart) {
@@ -253,8 +254,50 @@ app.delete("/deleteCartItem", async (req, res) => {
     }
 });
 
+app.post("/khaltiPayment", async (req, res) => {
+    const paymentUrl = process.env.KHALTI_PAYMENT_URL;
+    const secret = process.env.KHALTI_SECRET_KEY
+    const { amount, orderID } = req.body
+    const payload = {
+        return_url: process.env.KHALTI_SUCCESS_URL,
+        website_url: process.env.WEBSITE_URL,
+        amount: amount * 100,
+        purchase_order_id: orderID,
+        purchase_order_name: "Product Order",
+    }
 
+    const khaltiResponse = await axios.post(paymentUrl, payload, {
+        headers: {
+            Authorization: `Key ${secret}`,
+            "Content-Type": "application/json",
+        },
+    });
 
+    console.log("Khalti Response:", khaltiResponse.data);
+
+    res.status(200).json({
+        url: khaltiResponse.data
+    });
+})
+
+app.delete("/clearCart", async (req, res) => {
+    try {
+        const result = await Cart.deleteMany({});
+        if (result.deletedCount === 0) {
+            console.log("Entered here")
+            return res.status(200).json({
+                success: true,
+                message: "No carts found to clear"
+            });
+        }
+    } catch (error) {
+        console.error("Clearing cart:", error);
+        res.status(500).json({
+            message: "Internal server error while clearing from cart",
+            error: error.message
+        });
+    }
+})
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
