@@ -37,7 +37,7 @@ const CartPage = () => {
     }));
     console.log(updatedItems)
     try{
-      const response = await axios.put(`${import.meta.env.REACT_APP_API_URL}/updateCart`,
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/updateCart`,
       updatedItems,
       {withCredentials:true})
       if(response.status===200){
@@ -55,7 +55,7 @@ const CartPage = () => {
   const deleteCartItem = async(itemId)=>{
     console.log("Item id : ",itemId);
     try{
-        const response = await axios.delete(`${import.meta.env.REACT_APP_API_URL}/deleteCartItem`,
+        const response = await axios.delete(`${import.meta.env.VITE_API_URL}/deleteCartItem`,
           {params : {productId : itemId},
           withCredentials:true}
         );
@@ -73,7 +73,7 @@ const CartPage = () => {
   }
   const fetchCart = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/getCartItems`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/getCartItems`, {
         withCredentials: true,
       });
       if (response.status === 200) {

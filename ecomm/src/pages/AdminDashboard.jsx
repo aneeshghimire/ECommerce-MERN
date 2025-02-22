@@ -24,7 +24,7 @@ const ViewProducts = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3001/getProducts", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/getProducts`, {
           withCredentials: true
         });
   
@@ -44,7 +44,7 @@ const ViewProducts = () => {
         if (!window.confirm("Are you sure you want to delete this product?")) return;
     
         try {
-          const response = await axios.delete(`http://localhost:3001/deleteProducts`, {
+          const response = await axios.delete(`${import.meta.env.VITE_API_URL}/deleteProducts`, {
             params:{productId: id},
             withCredentials: true
           });
@@ -73,7 +73,7 @@ const ViewProducts = () => {
 
      
         try {
-          const response = await axios.put(`http://localhost:3001/updateProduct`,formData, {
+          const response = await axios.put(`${import.meta.env.VITE_API_URL}/updateProduct`,formData, {
             params:{productId: id},
             withCredentials: true
           });
@@ -274,7 +274,7 @@ const ViewProducts = () => {
     const [categoryName, setCategoryName] = useState('');
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/getCategories");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/getCategories`);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -287,7 +287,7 @@ const ViewProducts = () => {
     const handleSubmit = async ()=>{
       try {
         const data = {name : categoryName}
-        const response = await axios.post("http://localhost:3001/addCategory",data,{withCredentials:true});
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/addCategory`,data,{withCredentials:true});
         if(response.status===201){
           alert("Category Adding Successfull")
           setIsPopupOpen(false);

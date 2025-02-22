@@ -15,7 +15,7 @@ function ProductDetails() {
 
   const fetchProductDetails = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/product/${id}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/${id}`, {
         withCredentials: true,
       });
       if (response.status === 200) {
@@ -39,8 +39,7 @@ function ProductDetails() {
         alert("The quantity can't be 0.");
         return;
       }
-      const response = await axios.post(
-        `${import.meta.env.REACT_APP_API_URL}/addtocart`,
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/addtocart`,
         cartItem,
         { withCredentials: true }
       );

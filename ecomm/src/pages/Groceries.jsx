@@ -9,7 +9,7 @@ export default function Everything() {
         
         const filterProducts = async () => {
           try {
-            const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/getProductByCategory`,{
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/getProductByCategory`,{
             params: { categoryType: "Groceries" },
             withCredentials: true});
             if(response.status===200){
@@ -86,7 +86,7 @@ export default function Everything() {
   
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {filteredProducts.map((product) => (
-            <div key={product.id} className="w-full">
+            <div key={product._id} className="w-full">
               <Link to={`/product/${product._id}`}>
                 <div className="block w-full h-full">
                   <ProductCard

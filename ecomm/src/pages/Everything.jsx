@@ -9,7 +9,7 @@ export default function Everything() {
     
         const fetchProducts = async () => {
           try {
-            const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/getProducts`,{withCredentials: true});
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/getProducts`,{withCredentials: true});
             if(response.status===200){
               console.log("Products Fetched Successfully")
               setProducts(response.data); 
@@ -27,14 +27,13 @@ export default function Everything() {
         
         const [search, setSearch] = useState("");
         const [priceRange, setPriceRange] = useState([0, 10000]);
-      
         // Filter products based on search & price range
-        const filteredProducts = products.filter(
+        const filteredProducts = Array.isArray(products) ? products.filter(
           (product) =>
-            product.name.toLowerCase().includes(search.toLowerCase()) &&
+            product.name?.toLowerCase().includes(search.toLowerCase()) &&
             product.price >= priceRange[0] &&
             product.price <= priceRange[1]
-        );
+        ) : [];
   return (
     <div className="min-h-screen flex flex-col bg-[#f1f1f0] px-4 sm:px-10 md:px-20 py-8 md:py-12">
   <main className="flex flex-1 flex-col md:flex-row">
@@ -86,12 +85,12 @@ export default function Everything() {
 
       <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="w-full">
+          <div key={product._id} className="w-full">
             <Link to={`/product/${product._id}`}>
               <div className="block w-full h-full">
                 <ProductCard
                   name={product.name}
-                  category={product.category.name}
+                  category={product.category?.name || "Unknown"} 
                   price={product.price}
                   image={product.image}
                   description={

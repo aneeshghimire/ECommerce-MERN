@@ -6,7 +6,7 @@ export default function Success() {
 
     const clearCart = async ()=>{
         try{
-            const response = await axios.delete(`${import.meta.env.REACT_APP_API_URL}/clearCart`,
+            const response = await axios.delete(`${import.meta.env.VITE_API_URL}/clearCart`,
               {withCredentials:true}
             );
             if(response.status===200){

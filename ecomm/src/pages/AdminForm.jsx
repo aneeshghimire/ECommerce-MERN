@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-//import { Link } from "react-router-dom";
-// import ProductCard from "../components/productcard";
 import supabase from "../services/supabaseClient";
 import axios from "axios";
 
@@ -21,7 +19,7 @@ export default function AdminPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/getCategories");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/getCategories`);
         setCategories(response.data); // Expecting an array of category objects
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -88,7 +86,7 @@ export default function AdminPage() {
         image: imageUrl,
       };
 
-      const response = await axios.post("http://localhost:3001/addProducts", productData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/addProducts`, productData);
 
       if (response.status === 201) {
         alert("Product added successfully!");

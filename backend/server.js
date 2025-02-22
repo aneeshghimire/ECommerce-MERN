@@ -277,7 +277,7 @@ app.post("/khaltiPayment", async (req, res) => {
         purchase_order_id: orderID,
         purchase_order_name: "Product Order",
     }
-
+    console.log(payload)
     const khaltiResponse = await axios.post(paymentUrl, payload, {
         headers: {
             Authorization: `Key ${secret}`,

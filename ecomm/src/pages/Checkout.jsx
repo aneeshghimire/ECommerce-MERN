@@ -27,7 +27,8 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
     orderID
   }
   const verifyKhalti = async() =>{
-    const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}`,data, {
+    console.log(data)
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/khaltiPayment`,data, {
       withCredentials: true,
     });
     if(response.status === 200){
@@ -47,7 +48,7 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/getCartItems`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/getCartItems`, {
         withCredentials: true,
       });
       if (response.status === 200) {
