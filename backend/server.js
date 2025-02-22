@@ -37,6 +37,18 @@ app.post("/addProducts", async (req, res) => {
     }
 })
 
+app.post("/addCategory", async (req, res) => {
+    const data = req.body
+    console.log(data)
+    try {
+        const newCategory = new Category(data);
+        await newCategory.save();
+        res.status(201).json({ message: "Category added successfully", category: newCategory });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error adding category" });
+    }
+});
 
 app.get("/getCategories", async (req, res) => {
     try {
@@ -138,7 +150,7 @@ app.post("/addtocart", async (req, res) => {
         // Return response with populated cart
         const populatedCart = await Cart.findById(cart._id).populate('items.productId');
 
-        res.status(200).json({
+        res.status(201).json({
             message: "Added to cart successfully",
             cart: populatedCart
         });
@@ -296,6 +308,31 @@ app.delete("/clearCart", async (req, res) => {
             message: "Internal server error while clearing from cart",
             error: error.message
         });
+    }
+})
+
+app.put("/updateProduct", async (req, res) => {
+    const productData = req.body
+    const { productId } = req.query
+    console.log(productData)
+    console.log(productId)
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            productId,
+            { $set: productData }, // Updates only provided values
+            { new: true } // Returns the updated product
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        console.log(updatedProduct)
+        return res.status(200).json({
+            success: true,
+            message: "Product Updated"
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating product", error });
     }
 })
 // Start the server

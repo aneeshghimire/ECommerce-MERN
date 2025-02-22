@@ -44,7 +44,7 @@ function ProductDetails() {
         cartItem,
         { withCredentials: true }
       );
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("Added to cart:", response.data);
         alert("Product added to cart successfully!");
       }
