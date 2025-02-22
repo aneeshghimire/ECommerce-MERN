@@ -57,7 +57,7 @@ export default function AdminPage() {
     if (!imageFile) return null;
 
     const fileName = `${Date.now()}-${imageFile.name}`;
-    const { data, error } = await supabase.storage
+    const {  error } = await supabase.storage
       .from("ecomm-project-storage")
       .upload(fileName, imageFile);
 

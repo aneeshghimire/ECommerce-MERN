@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, Links } from 'react-router-dom';
 
 const CheckoutPage = () => {
 const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
@@ -28,7 +27,7 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
     orderID
   }
   const verifyKhalti = async() =>{
-    const response = await axios.post('http://localhost:3001/khaltiPayment',data, {
+    const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}`,data, {
       withCredentials: true,
     });
     if(response.status === 200){
@@ -48,7 +47,7 @@ const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/getCartItems', {
+      const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/getCartItems`, {
         withCredentials: true,
       });
       if (response.status === 200) {

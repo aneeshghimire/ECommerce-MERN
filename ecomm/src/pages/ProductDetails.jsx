@@ -15,7 +15,7 @@ function ProductDetails() {
 
   const fetchProductDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/product/${id}`, {
+      const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/product/${id}`, {
         withCredentials: true,
       });
       if (response.status === 200) {
@@ -40,7 +40,7 @@ function ProductDetails() {
         return;
       }
       const response = await axios.post(
-        "http://localhost:3001/addtocart",
+        `${import.meta.env.REACT_APP_API_URL}/addtocart`,
         cartItem,
         { withCredentials: true }
       );

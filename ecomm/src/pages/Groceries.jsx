@@ -9,7 +9,7 @@ export default function Everything() {
         
         const filterProducts = async () => {
           try {
-            const response = await axios.get("http://localhost:3001/getProductByCategory",{
+            const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/getProductByCategory`,{
             params: { categoryType: "Groceries" },
             withCredentials: true});
             if(response.status===200){

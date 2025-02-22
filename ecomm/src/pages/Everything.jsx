@@ -9,7 +9,7 @@ export default function Everything() {
     
         const fetchProducts = async () => {
           try {
-            const response = await axios.get("http://localhost:3001/getProducts",{withCredentials: true});
+            const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/getProducts`,{withCredentials: true});
             if(response.status===200){
               console.log("Products Fetched Successfully")
               setProducts(response.data); 

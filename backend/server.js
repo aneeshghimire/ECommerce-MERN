@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 const uri = process.env.MONGO_URI
 // Middleware
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://e-commerce-mern-xhmg.vercel.app/everything"],
     credentials: true,
 }));
 app.use(express.json());
