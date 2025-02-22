@@ -28,7 +28,7 @@ export function ThreeDCardDemo({src}) {
           </CardItem>
           <CardItem translateZ="100" className="mt-4">
             <Link
-              to="/shop"
+              to="/everything"
               className="px-6 py-3 bg-green-600 text-white text-sm font-bold rounded-lg flex items-center"
             >
               SHOP NOW →

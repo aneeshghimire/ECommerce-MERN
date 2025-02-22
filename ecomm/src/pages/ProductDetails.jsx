@@ -70,12 +70,14 @@ function ProductDetails() {
         <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
 
         <p className="text-2xl font-semibold text-gray-900 mt-2">
-          £{product.price.toFixed(2)}
-          <span className="text-sm font-light text-gray-500">
-            + Free Shipping <FaTruckMoving />
-          </span>
+          Rs. {product.price.toFixed(2)}
         </p>
-
+        <p className="flex items-center">
+            <span className="text-sm font-light mr-3 text-gray-500">
+                Free Shipping
+            </span>
+            <FaTruckMoving className="ml-1" />
+        </p>
         <p className="text-gray-600 text-lg mt-4">{product.description}</p>
 
         {/* Quantity & Add to Cart */}

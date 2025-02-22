@@ -6,11 +6,50 @@ import axios from 'axios';
 const CartPage = () => {
     const [couponCode, setCouponCode] = useState('');
     const[cart, setCart] = useState({ items: [], totalPrice: 0, itemCount: 0 })
+    const [isDisabled, setIsDisabled] = useState(true);
     
   //const [count, setCount] = useState(0);
   useEffect(()=>{
       fetchCart();
   },[])
+  
+  const [updatedQuantities,setUpdatedQuantities] = useState({})
+  const handleQuantityChange = (e, item) =>{
+    const id = item.id
+    setIsDisabled(false); // Enable the Update button when quantity changes
+    const newQuantity = parseInt(e.target.value);
+    console.log("New Quantity: ", newQuantity)
+    console.log("Item quantity: ", item.quantity)
+    if (newQuantity != item.quantity) {
+      setUpdatedQuantities((prev) => ({
+        ...prev,
+        [id]: newQuantity,
+      }));
+    }
+
+  }
+
+  const updateCart = async()=>{
+    console.log(updatedQuantities)
+    const updatedItems = Object.entries(updatedQuantities).map(([id, quantity]) => ({
+      id,
+      quantity
+    }));
+    console.log(updatedItems)
+    try{
+      const response = await axios.put("http://localhost:3001/updateCart",
+      updatedItems,
+      {withCredentials:true})
+      if(response.status===200){
+        console.log("Updated Cart successfully")
+        setUpdatedQuantities({});
+        fetchCart()
+      }
+    }catch (error){
+      console.error("Error Updating cart:", error);
+    }
+  }
+
   
 
   const deleteCartItem = async(itemId)=>{
@@ -29,7 +68,6 @@ const CartPage = () => {
             console.log(response.data.message)
         }
     }catch(error){
-
         console.error("Error fetching product details:", error);
     }
   }
@@ -92,6 +130,7 @@ const CartPage = () => {
                 <input
                   type="number"
                   min="1"
+                  onChange={(e)=>{handleQuantityChange(e,item)}}
                   placeholder={item.quantity}
                   className="w-16 p-1 border rounded text-center"
                 />
@@ -121,9 +160,13 @@ const CartPage = () => {
                         APPLY COUPON
                     </button>
                 </div>
-                <button className="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300 transition">
-                    UPDATE CART
-                </button>
+                <button
+                  onClick={updateCart}
+                  className={` bg-green-600 text-gray-700 px-6 py-2 rounded hover:bg-gray-300 transition ${isDisabled ? 'bg-gray-200 opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={isDisabled}
+                >
+          UPDATE CART
+        </button>
             </div>
 
             {/* Cart Totals */}

@@ -335,6 +335,37 @@ app.put("/updateProduct", async (req, res) => {
         res.status(500).json({ message: "Error updating product", error });
     }
 })
+
+
+app.put("/updateCart", async (req, res) => {
+    try {
+        const data = req.body;
+        console.log("Received data:", data);
+        for (const item of data) {
+            const result = await Cart.updateOne(
+                { "items._id": item.id },
+                { $set: { "items.$.quantity": item.quantity } }
+            );
+            console.log("Update Result:", result);
+        }
+        ///after updating, manually updating total price
+        let cart = await Cart.findOne().populate('items.productId');
+        let newTotal = 0;
+        for (let item of cart.items) {
+            if (item.productId) {
+                newTotal += item.productId.price * item.quantity;
+            }
+        }
+        cart.totalPrice = newTotal;
+        await cart.save();
+        res.json({ message: "Cart updated successfully" });
+    } catch (error) {
+        console.error("Error updating cart:", error);
+        res.status(500).json({ message: "Failed to update cart." });
+    }
+});
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
